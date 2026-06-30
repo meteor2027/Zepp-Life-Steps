@@ -48,7 +48,13 @@ async function zeppLogin(account, password) {
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'User-Agent': 'Zepp Life/6.6.0' },
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Zepp Life/6.6.0',
+                // 添加以下两行，模拟请求来自中国大陆
+                'X-Forwarded-For': '114.114.114.114',
+                'X-Real-IP': '114.114.114.114'
+            },
             body: JSON.stringify({ account: loginAccount, password, country_code: 'CN' })
         });
         const data = await response.json();
@@ -66,7 +72,10 @@ async function updateSteps(userData, steps) {
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'User-Agent': 'Zepp Life/6.6.0' },
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Zepp Life/6.6.0'
+            },
             body: JSON.stringify({ user_id: userData.user_id, login_token: userData.login_token, app_token: userData.app_token, steps, timestamp: Math.floor(Date.now() / 1000) })
         });
         const data = await response.json();
